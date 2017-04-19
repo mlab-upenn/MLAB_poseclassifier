@@ -22,7 +22,7 @@ function varargout = pose_estimator(varargin)
 
 % Edit the above text to modify the response to help pose_estimator
 
-% Last Modified by GUIDE v2.5 07-Apr-2017 10:38:52
+% Last Modified by GUIDE v2.5 19-Apr-2017 12:07:03
 % Copyrights(C) Madhur Behl 2015
 
 % Begin initialization code - DO NOT EDIT
@@ -186,19 +186,9 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-[filename,PathName] = uigetfile('*.txt','Select the test file');
+system('C:\Users\ESE\Documents\GitHub\MLAB_poseclassifier\pose-classifier\YogaMat.exe');
+filename= 'test.txt';
 
-    if ( strcmp(filename,'left.txt') )
-        ground_truth = 1;
-    elseif ( strcmp(filename,'right.txt')) 
-            ground_truth = 2;
-    elseif  (strcmp(filename,'front.txt'))
-        ground_truth = 3;
-    else
-        ground_truth = 4;  
-    end 
-           
-true_pose = ground_truth;
 frame = load(char(filename));
 frame= reshape(frame,16,16);
 frame=frame';
@@ -216,24 +206,5 @@ axis image
 framep = load(filename);
 predicted_label = predict(handles.tree,framep);
 predicted_pose = handles.poses(str2num(cell2mat(predicted_label)));
-
-if(strcmp(filename,'left.txt'))
-    string1 = 'Left';
-elseif(strcmp(filename,'right.txt')) 
-    string1 = 'Right';
-elseif(strcmp(filename,'front.txt'))
-    string1 = 'Front';
-else
-    string1 = 'Back';
-end 
-
 string2 = predicted_pose;
-set(handles.edit2, 'String', string1);
 set(handles.edit1, 'String', string2);
-
-% --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over pushbutton2.
-function pushbutton2_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
